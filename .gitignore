@@ -9,6 +9,9 @@ data/external/data/
 # C extensions
 *.so
 
+# Ignore Notebook output
+*.ipynb filter=nbstripout
+
 # Distribution / packaging
 .Python
 build/
