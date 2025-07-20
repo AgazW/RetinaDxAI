@@ -13,6 +13,7 @@ def download_eye_disease_dataset(
 
 	Args:
 		target_dir (str): The directory where the dataset will be copied.
+		kaggle_data (str): The Kaggle dataset identifier.
 
 	Returns:
 		str: The path to the dataset files in the target directory.
