@@ -4,7 +4,7 @@ import kagglehub
 import os
 import shutil
 
-def download_eye_disease_dataset(
+def download_kaggle_dataset(
 		target_dir = "../data/external",
 		kaggle_data = "abhinav099802/eye-disease-image-dataset"):
 	
