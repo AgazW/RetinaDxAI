@@ -36,6 +36,7 @@ class SimpleCNN(nn.Module):
             nn.Linear(128, num_classes)
         )
 
+
     def forward(self, x):
         """
         Defines the forward pass of the SimpleCNN.
@@ -49,6 +50,7 @@ class SimpleCNN(nn.Module):
         x = self.features(x)
         x = self.classifier(x)
         return x
+
 
 def get_dataloaders(data_path, batch_size=32, val_split=0.2):
     """
@@ -80,6 +82,7 @@ def get_dataloaders(data_path, batch_size=32, val_split=0.2):
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(val_ds, batch_size=batch_size)
     return train_loader, val_loader
+
 
 def train_model(model, train_loader, val_loader, epochs=10, lr=0.001, device='cpu'):
     """
@@ -113,6 +116,7 @@ def train_model(model, train_loader, val_loader, epochs=10, lr=0.001, device='cp
         avg_loss = running_loss / len(train_loader.dataset)
         val_acc = evaluate_model(model, val_loader, device)
         print(f"Epoch {epoch+1}/{epochs}, Loss: {avg_loss:.4f}, Val Acc: {val_acc:.4f}")
+
 
 def evaluate_model(model, data_loader, device='cpu'):
     """
