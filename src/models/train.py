@@ -10,14 +10,16 @@ class SimpleCNN(nn.Module):
     """
     A simple Convolutional Neural Network for image classification.
 
-    Args:
+    Parameters:
+    ----------
         num_classes (int): Number of output classes.
     """
     def __init__(self, num_classes):
         """
         Initializes the SimpleCNN model architecture.
 
-        Args:
+        Parameters:
+        ----------
             num_classes (int): Number of output classes.
         """
         super(SimpleCNN, self).__init__()
@@ -41,7 +43,8 @@ class SimpleCNN(nn.Module):
         """
         Defines the forward pass of the SimpleCNN.
 
-        Args:
+        Parameters:
+        ----------
             x (torch.Tensor): Input tensor of shape (batch_size, 3, 224, 224).
 
         Returns:
@@ -56,7 +59,8 @@ def get_dataloaders(data_path, batch_size=32, val_split=0.2):
     """
     Loads data from a .pt or .pth file and returns PyTorch DataLoaders for training and validation.
 
-    Args:
+    Parameters:
+    ----------
         data_path (str): Path to the .pt or .pth file containing the data dictionary.
         batch_size (int, optional): Batch size for the DataLoaders. Defaults to 32.
         val_split (float, optional): Fraction of data to use for validation if not already split. Defaults to 0.2.
@@ -88,7 +92,8 @@ def train_model(model, train_loader, val_loader, epochs=10, lr=0.001, device='cp
     """
     Trains a PyTorch model using the provided DataLoaders.
 
-    Args:
+    Parameters:
+    ----------
         model (nn.Module): The PyTorch model to train.
         train_loader (DataLoader): DataLoader for the training data.
         val_loader (DataLoader): DataLoader for the validation data.
@@ -122,7 +127,8 @@ def evaluate_model(model, data_loader, device='cpu'):
     """
     Evaluates a PyTorch model on the provided DataLoader.
 
-    Args:
+    Parameters:
+    ----------
         model (nn.Module): The PyTorch model to evaluate.
         data_loader (DataLoader): DataLoader for the evaluation data.
         device (str, optional): Device to use ('cpu' or 'cuda'). Defaults to 'cpu'.
