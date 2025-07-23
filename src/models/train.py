@@ -73,13 +73,13 @@ def get_dataloaders(data_path, batch_size=32, val_split=0.3):
     # Use 'images' and 'targets' as saved by preprocessing.py
     if 'images' in data and 'targets' in data:
         X, y = data['images'], data['targets']
-        # Split into train and val
-        num_samples = X.shape[0]
-        indices = torch.randperm(num_samples)
-        split = int(num_samples * (1 - val_split))
-        train_idx, val_idx = indices[:split], indices[split:]
-        X_train, y_train = X[train_idx], y[train_idx]
-        X_val, y_val = X[val_idx], y[val_idx]
+        # Stratified split into train and val
+        from sklearn.model_selection import StratifiedShuffleSplit
+        sss = StratifiedShuffleSplit(n_splits=1, test_size=val_split, random_state=42)
+        y_np = y.cpu().numpy() if hasattr(y, 'cpu') else y.numpy()
+        for train_idx, val_idx in sss.split(X, y_np):
+            X_train, y_train = X[train_idx], y[train_idx]
+            X_val, y_val = X[val_idx], y[val_idx]
     elif 'X_train' in data and 'y_train' in data and 'X_val' in data and 'y_val' in data:
         X_train, y_train = data['X_train'], data['y_train']
         X_val, y_val = data['X_val'], data['y_val']
