@@ -55,7 +55,7 @@ class SimpleCNN(nn.Module):
         return x
 
 
-def get_dataloaders(data_path, batch_size=32, val_split=0.25):
+def get_dataloaders(data_path, batch_size=32, val_split=0.3):
     """
     Loads data from a .pt or .pth file and returns PyTorch DataLoaders for training and validation.
 
