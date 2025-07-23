@@ -68,12 +68,11 @@ def get_dataloaders(data_path, batch_size=32, val_split=0.2):
     Returns:
         tuple: (train_loader, val_loader) - DataLoaders for training and validation datasets.
     """
+    
     data = torch.load(data_path)
-    if 'X_train' in data and 'y_train' in data and 'X_val' in data and 'y_val' in data:
-        X_train, y_train = data['X_train'], data['y_train']
-        X_val, y_val = data['X_val'], data['y_val']
-    else:
-        X, y = data['X'], data['y']
+    # Use 'images' and 'targets' as saved by preprocessing.py
+    if 'images' in data and 'targets' in data:
+        X, y = data['images'], data['targets']
         # Split into train and val
         num_samples = X.shape[0]
         indices = torch.randperm(num_samples)
@@ -81,12 +80,16 @@ def get_dataloaders(data_path, batch_size=32, val_split=0.2):
         train_idx, val_idx = indices[:split], indices[split:]
         X_train, y_train = X[train_idx], y[train_idx]
         X_val, y_val = X[val_idx], y[val_idx]
+    elif 'X_train' in data and 'y_train' in data and 'X_val' in data and 'y_val' in data:
+        X_train, y_train = data['X_train'], data['y_train']
+        X_val, y_val = data['X_val'], data['y_val']
+    else:
+        raise ValueError("Data file must contain either 'images' and 'targets' or train/val splits.")
     train_ds = TensorDataset(X_train, y_train)
     val_ds = TensorDataset(X_val, y_val)
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(val_ds, batch_size=batch_size)
     return train_loader, val_loader
-
 
 def train_model(model, train_loader, val_loader, epochs=10, lr=0.001, device='cpu'):
     """
