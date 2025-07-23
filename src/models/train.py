@@ -55,7 +55,7 @@ class SimpleCNN(nn.Module):
         return x
 
 
-def get_dataloaders(data_path, batch_size=32, val_split=0.2):
+def get_dataloaders(data_path, batch_size=32, val_split=0.25):
     """
     Loads data from a .pt or .pth file and returns PyTorch DataLoaders for training and validation.
 
@@ -68,7 +68,7 @@ def get_dataloaders(data_path, batch_size=32, val_split=0.2):
     Returns:
         tuple: (train_loader, val_loader) - DataLoaders for training and validation datasets.
     """
-    
+
     data = torch.load(data_path)
     # Use 'images' and 'targets' as saved by preprocessing.py
     if 'images' in data and 'targets' in data:
