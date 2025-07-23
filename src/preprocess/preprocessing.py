@@ -8,7 +8,8 @@ def get_transforms(img_size=(224, 224)):
     """
     Create a torchvision transform pipeline for preprocessing images.
 
-    Args:
+    Parameters:
+    ----------
         img_size (tuple): Desired image size as (height, width).
 
     Returns:
@@ -25,7 +26,8 @@ def get_image_dataloader(data_dir, batch_size=32, img_size=(224, 224), shuffle=T
     """
     Create a DataLoader for images organized in subfolders of a directory.
 
-    Args:
+    Parameters:
+    ----------
         data_dir (str): Path to the root directory containing image subfolders.
         batch_size (int): Number of images per batch.
         img_size (tuple): Desired image size as (height, width).
@@ -43,7 +45,9 @@ def get_image_dataloader(data_dir, batch_size=32, img_size=(224, 224), shuffle=T
 def save_preprocessed_batches(dataloader, save_dir):
     """
     Saves each batch of images and targets from the dataloader as separate .pt files.
-    Args:
+    
+    Parameters:
+    ----------
         dataloader: PyTorch DataLoader yielding (images, targets)
         save_dir: Directory to save .pt files
     """
@@ -57,7 +61,9 @@ def save_preprocessed_batches(dataloader, save_dir):
 def save_entire_dataset(dataloader, save_path):
     """
     Saves the entire dataset as a single .pt file containing all images and targets tensors.
-    Args:
+    
+    Parameters:
+    ----------
         dataloader: PyTorch DataLoader yielding (images, targets)
         save_path: Path to save the .pt file
     """
