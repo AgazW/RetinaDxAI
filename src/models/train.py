@@ -5,6 +5,7 @@ from torch.utils.data import DataLoader, TensorDataset
 
 import torch.nn as nn
 import torch.optim as optim
+from torchvision import models
 
 class SimpleCNN(nn.Module):
     """
@@ -54,9 +55,25 @@ class SimpleCNN(nn.Module):
         x = self.classifier(x)
         return x
 
+def get_resnet18(num_classes, pretrained=False):
+    """
+    Returns a ResNet18 model with the final layer adjusted for the given number of classes.
+
+    Parameters:
+    ----------
+        num_classes (int): Number of output classes.
+        pretrained (bool): If True, returns a model pre-trained on ImageNet.
+
+    Returns:
+        nn.Module: ResNet18 model.
+    """
+    model = models.resnet18(pretrained=pretrained)
+    model.fc = nn.Linear(model.fc.in_features, num_classes)
+    return model
 
 def get_dataloaders(data_path, batch_size=32, val_split=0.3):
     """
+    Loads data from a .pt or .pth file and returns PyTorch DataLoaders for training and validation.
     Loads data from a .pt or .pth file and returns PyTorch DataLoaders for training and validation.
 
     Parameters:
