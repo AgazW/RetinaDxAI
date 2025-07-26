@@ -19,7 +19,7 @@ def get_transforms(img_size=(224, 224)):
         transforms.Resize(img_size),
         transforms.ToTensor(),
         # # Normalization values are ImageNet means/stds (see explanation below)
-        # transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])
 
 def get_image_dataloader(data_dir, batch_size=32, img_size=(224, 224), shuffle=True):
