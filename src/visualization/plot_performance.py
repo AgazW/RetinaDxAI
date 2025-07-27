@@ -1,5 +1,9 @@
 import matplotlib.pyplot as plt
 import math
+import numpy as np
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+import torch
 
 def plot_results(results, epochs):
     """
@@ -56,3 +60,43 @@ def plot_results(results, epochs):
 
     plt.tight_layout()
     plt.show() 
+
+
+
+def plot_confusion_matrix(model, data_loader, class_names, device='cpu', normalize=False, figsize=(6,5)):
+    """
+    Plots the confusion matrix for a given model and dataloader.
+
+    Parameters
+    ----------
+    model : torch.nn.Module
+        Trained PyTorch model.
+    data_loader : torch.utils.data.DataLoader
+        DataLoader for the dataset to evaluate.
+    class_names : list
+        List of class names (strings).
+    device : str
+        Device to run the model on ('cpu' or 'cuda').
+    normalize : bool
+        If True, normalize the confusion matrix.
+    figsize : tuple
+        Size of the plot.
+    """
+    model.eval()
+    all_preds = []
+    all_labels = []
+    with torch.no_grad():
+        for images, labels in data_loader:
+            images = images.to(device)
+            outputs = model(images)
+            _, preds = torch.max(outputs, 1)
+            all_preds.extend(preds.cpu().numpy())
+            all_labels.extend(labels.cpu().numpy())
+    cm = confusion_matrix(all_labels, all_preds, normalize='true' if normalize else None)
+    plt.figure(figsize=figsize)
+    sns.heatmap(cm, annot=True, fmt='.2f' if normalize else 'd', cmap='Blues',
+                xticklabels=class_names, yticklabels=class_names)
+    plt.xlabel('Predicted')
+    plt.ylabel('True')
+    plt.title('Confusion Matrix' + (' (Normalized)' if normalize else ''))
+    plt.show()
