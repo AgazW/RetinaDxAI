@@ -108,7 +108,39 @@ def get_dataloaders(data_path, batch_size=32, val_split=0.3):
     val_loader = DataLoader(val_ds, batch_size=batch_size)
     return train_loader, val_loader
 
-def train_model(model, train_loader, val_loader, epochs=10, lr=0.001, device='cpu'):
+
+def evaluate_model(model, data_loader, device='cpu'):
+    """
+    Evaluates a PyTorch model on the provided DataLoader.
+   
+    Parameters:
+    ----------
+    model (nn.Module): The PyTorch model to evaluate.
+    data_loader (DataLoader): DataLoader for the evaluation data.
+    device (str, optional): Device to use ('cpu' or 'cuda'). Defaults to 'cpu'.
+    
+    Returns:
+        float: Accuracy of the model on the provided data.
+    """
+    criterion = nn.CrossEntropyLoss()
+    model.eval()
+    val_running_loss = 0.0
+    correct = 0
+    total = 0
+    with torch.no_grad():
+        for images, labels in data_loader:
+            images, labels = images.to(device), labels.to(device)
+            outputs = model(images)
+            loss = criterion(outputs, labels)
+            val_running_loss += loss.item() * images.size(0)
+            _, preds = torch.max(outputs, 1)
+            correct += (preds == labels).sum().item()
+            total += labels.size(0)
+    avg_val_loss = val_running_loss / len(data_loader.dataset)
+    val_acc = correct / total
+    return avg_val_loss, val_acc
+
+def train_model(model, train_loader, val_loader, epochs=10, lr=0.0001, device='cpu'):
     """
     Trains a PyTorch model using the provided DataLoaders.
 
@@ -127,6 +159,7 @@ def train_model(model, train_loader, val_loader, epochs=10, lr=0.001, device='cp
     model.to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=lr)
+    train_losses = []
     for epoch in range(epochs):
         model.train()
         running_loss = 0.0
@@ -139,6 +172,7 @@ def train_model(model, train_loader, val_loader, epochs=10, lr=0.001, device='cp
             optimizer.step()
             running_loss += loss.item() * images.size(0)
         avg_loss = running_loss / len(train_loader.dataset)
+        train_losses.append(avg_loss)
         val_acc = evaluate_model(model, val_loader, device)
         print(f"Epoch {epoch+1}/{epochs}, Loss: {avg_loss:.4f}, Val Acc: {val_acc:.4f}")
 
@@ -156,16 +190,27 @@ def evaluate_model(model, data_loader, device='cpu'):
     Returns:
         float: Accuracy of the model on the provided data.
     """
+    criterion = nn.CrossEntropyLoss()
     model.eval()
+    val_running_loss = 0.0
     correct = 0
     total = 0
+    val_losses = []
+    val_accuracies = []
     with torch.no_grad():
         for images, labels in data_loader:
             images, labels = images.to(device), labels.to(device)
             outputs = model(images)
+            loss = criterion(outputs, labels)
+            val_running_loss += loss.item() * images.size(0)
             _, preds = torch.max(outputs, 1)
             correct += (preds == labels).sum().item()
             total += labels.size(0)
-    return correct / total
+
+    avg_val_loss = val_running_loss / len(data_loader.dataset)
+    val_acc = correct / total
+    val_losses.append(avg_val_loss)
+    val_accuracies.append(val_acc)
+    return val_losses, val_accuracies, val_acc
 
 
