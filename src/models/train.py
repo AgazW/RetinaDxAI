@@ -154,12 +154,14 @@ def train_model(model, train_loader, val_loader, epochs=10, lr=0.0001, device='c
         device (str, optional): Device to use ('cpu' or 'cuda'). Defaults to 'cpu'.
 
     Returns:
-        None
+        training/val loss and accuracy
     """
     model.to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=lr)
     train_losses = []
+    val_losses = []
+    val_accuracies = []
     for epoch in range(epochs):
         model.train()
         running_loss = 0.0
@@ -173,7 +175,12 @@ def train_model(model, train_loader, val_loader, epochs=10, lr=0.0001, device='c
             running_loss += loss.item() * images.size(0)
         avg_loss = running_loss / len(train_loader.dataset)
         train_losses.append(avg_loss)
-        val_acc = evaluate_model(model, val_loader, device)
-        print(f"Epoch {epoch+1}/{epochs}, Loss: {avg_loss:.4f}, Val Acc: {val_acc:.4f}")
 
+        # Call evaluate_model to get val loss and acc
+        avg_val_loss, val_acc = evaluate_model(model, val_loader, device)
+        val_losses.append(avg_val_loss)
+        val_accuracies.append(val_acc)
+        print(f"Epoch {epoch+1}/{epochs}, Loss: {avg_loss:.4f}, Val Loss: {avg_val_loss:.4f}, Val Acc: {val_acc:.4f}")
+    
+    return train_losses, val_losses, val_accuracies
 
