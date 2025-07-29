@@ -94,7 +94,7 @@ def plot_confusion_matrix(model, data_loader, class_names, device='cpu', normali
             all_labels.extend(labels.cpu().numpy())
     cm = confusion_matrix(all_labels, all_preds, normalize='true' if normalize else None)
     plt.figure(figsize=figsize)
-    sns.heatmap(cm, annot=True, fmt='.2f' if normalize else 'd', cmap='Blues',
+    sns.heatmap(cm, annot=True, fmt='.2f' if normalize else 'd', cmap='viridis',
                 xticklabels=class_names, yticklabels=class_names)
     plt.xlabel('Predicted')
     plt.ylabel('True')
