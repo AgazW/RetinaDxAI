@@ -92,6 +92,11 @@ def plot_confusion_matrix(model, data_loader, class_names, device='cpu', normali
             _, preds = torch.max(outputs, 1)
             all_preds.extend(preds.cpu().numpy())
             all_labels.extend(labels.cpu().numpy())
+
+    if len(all_labels) == 0 or len(all_preds) == 0:
+        print("No samples to plot confusion matrix.")
+        return
+    
     cm = confusion_matrix(all_labels, all_preds, normalize='true' if normalize else None)
     plt.figure(figsize=figsize)
     sns.heatmap(cm, annot=True, fmt='.2f' if normalize else 'd', cmap='viridis',
