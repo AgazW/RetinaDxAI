@@ -1,32 +1,39 @@
 import torch
 from torch.utils.data import DataLoader, TensorDataset
-import train
+import train  # Make sure train.py exists and implements required functions
 
+# Dummy model for testing purposes
 class DummyModel(torch.nn.Module):
     def __init__(self, num_classes=2):
         super().__init__()
+        # Simple linear layer for classification
         self.fc = torch.nn.Linear(3*8*8, num_classes)
     def forward(self, x):
+        # Flatten input and pass through linear layer
         x = x.view(x.size(0), -1)
         return self.fc(x)
 
+# Create a DataLoader with random images and labels
 def make_dummy_loader(num_samples=20, num_classes=2, img_shape=(3,8,8)):
-    images = torch.randn(num_samples, *img_shape)
-    labels = torch.randint(0, num_classes, (num_samples,))
+    images = torch.randn(num_samples, *img_shape)  # Random images
+    labels = torch.randint(0, num_classes, (num_samples,))  # Random labels
     ds = TensorDataset(images, labels)
     return DataLoader(ds, batch_size=4, shuffle=False)
 
+# Test splitting data into train/val loaders from a single file
 def test_get_dataloaders_split(tmp_path):
-    # Save dummy data
+    # Save dummy data to file
     images = torch.randn(20, 3, 8, 8)
     targets = torch.randint(0, 2, (20,))
     torch.save({'images': images, 'targets': targets}, tmp_path/"dummy.pt")
+    # Loaders should split data correctly
     train_loader, val_loader = train.get_dataloaders(str(tmp_path/"dummy.pt"), batch_size=4, val_split=0.25)
     # Check loaders
     assert isinstance(train_loader, DataLoader)
     assert isinstance(val_loader, DataLoader)
     assert len(train_loader.dataset) + len(val_loader.dataset) == 20
 
+# Test loading pre-split train/val data from file
 def test_get_dataloaders_pre_split(tmp_path):
     # Save dummy pre-split data
     X_train = torch.randn(10, 3, 8, 8)
@@ -34,10 +41,12 @@ def test_get_dataloaders_pre_split(tmp_path):
     X_val = torch.randn(5, 3, 8, 8)
     y_val = torch.randint(0, 2, (5,))
     torch.save({'X_train': X_train, 'y_train': y_train, 'X_val': X_val, 'y_val': y_val}, tmp_path/"dummy2.pt")
+    # Loaders should use pre-split data
     train_loader, val_loader = train.get_dataloaders(str(tmp_path/"dummy2.pt"), batch_size=2)
     assert len(train_loader.dataset) == 10
     assert len(val_loader.dataset) == 5
 
+# Test evaluation function runs and returns valid results
 def test_evaluate_model_runs():
     loader = make_dummy_loader()
     model = DummyModel(num_classes=2)
@@ -45,6 +54,7 @@ def test_evaluate_model_runs():
     assert isinstance(avg_loss, float)
     assert 0.0 <= acc <= 1.0
 
+# Test training function runs and returns valid results
 def test_train_model_runs():
     train_loader = make_dummy_loader()
     val_loader = make_dummy_loader()
