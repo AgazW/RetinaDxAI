@@ -6,7 +6,32 @@ import sys
 sys.path.append("src")
 from models.evaluate import load_model, preprocess_image, predict, class_names
 
-st.title("RetinaDxAI Classifier")
+st.set_page_config(page_title="RetinaDxAI Classifier", page_icon="🧑‍⚕️", layout="centered")
+st.markdown(
+    """
+    <style>
+    .main {background-color: #f0f2f6;}
+    .stButton>button {background-color: #4CAF50; color: white;}
+    .stSuccess {background-color: #d4edda;}
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+st.sidebar.image("https://images.unsplash.com/photo-1517841905240-472988babdf9", use_column_width=True)
+st.sidebar.title("RetinaDxAI")
+st.sidebar.markdown("Upload a retina image to classify.")
+
+st.title("🧑‍⚕️ RetinaDxAI Classifier")
+st.markdown(
+    """
+    <div style="background-color:#e3f2fd;padding:10px;border-radius:10px;">
+    <h4>Welcome to RetinaDxAI!</h4>
+    <p>This app uses a deep learning model to classify retina images. Upload a JPG, JPEG, or PNG image and get instant predictions.</p>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
 # Device setup
 device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
@@ -21,9 +46,15 @@ model = get_model()
 
 uploaded_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
 if uploaded_file is not None:
-    img = Image.open(uploaded_file).convert("RGB")
-    st.image(img, caption="Uploaded Image", use_column_width=True)
-    img.save("temp_uploaded_image.jpg")  # Save temporarily for preprocessing
-    img_tensor = preprocess_image("temp_uploaded_image.jpg")
-    pred_class = predict(model, img_tensor)
-    st.success(f"Predicted class: {pred_class}")
+    try:
+        img = Image.open(uploaded_file).convert("RGB")
+        st.image(img, caption="Uploaded Image", use_column_width=True)
+        # Preprocess directly from PIL Image
+        img_tensor = preprocess_image(img)
+        pred_class = predict(model, img_tensor)
+        st.success(f"Predicted class: **{pred_class}**")
+        st.balloons()
+    except Exception as e:
+        st.error(f"Error processing image: {e}")
+else:
+    st.info("Please upload a retina image to get started.")
