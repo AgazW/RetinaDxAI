@@ -63,7 +63,8 @@ def plot_results(results, epochs):
 
 
 
-def plot_confusion_matrix(model, data_loader, class_names, device='cpu', normalize=False, figsize=(6,5)):
+def plot_confusion_matrix(model, data_loader, class_names, 
+                          device='cpu', normalize=False, figsize=(6,5)):
     """
     Plots the confusion matrix for a given model and dataloader.
 
