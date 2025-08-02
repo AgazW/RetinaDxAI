@@ -18,7 +18,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.sidebar.image("https://images.unsplash.com/photo-1517841905240-472988babdf9", use_column_width=True)
+st.sidebar.image("https://images.unsplash.com/photo-1517841905240-472988babdf9", use_container_width=True)
 st.sidebar.title("RetinaDxAI")
 st.sidebar.markdown("Upload a retina image to classify.")
 
@@ -48,11 +48,11 @@ uploaded_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
 if uploaded_file is not None:
     try:
         img = Image.open(uploaded_file).convert("RGB")
-        st.image(img, caption="Uploaded Image", use_column_width=True)
+        st.image(img, caption="Uploaded Image", use_container_width=True)
         # Preprocess directly from PIL Image
         img_tensor = preprocess_image(img)
-        pred_class = predict(model, img_tensor)
-        st.success(f"Predicted class: **{pred_class}**")
+        pred_class, conf_prob = predict(model, img_tensor)
+        st.success(f"Predicted class: **{pred_class} with {conf_prob} cofidence**")
         st.balloons()
     except Exception as e:
         st.error(f"Error processing image: {e}")
