@@ -1,7 +1,10 @@
 import streamlit as st
 import torch
 from PIL import Image
-from evaluate import load_model, preprocess_image, predict, class_names
+import sys
+
+sys.path.append("src")
+from models.evaluate import load_model, preprocess_image, predict, class_names
 
 st.title("RetinaDxAI Classifier")
 
