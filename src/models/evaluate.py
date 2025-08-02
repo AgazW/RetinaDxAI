@@ -35,10 +35,14 @@ def load_model(weights_path, num_classes):
     model.eval()
     return model
 
-def preprocess_image(img_path, img_size=(224, 224)):
-    img = Image.open(img_path).convert("RGB")
+def preprocess_image(img, img_size=(224, 224)):
+    # Accepts either a file path or a PIL Image
+    from PIL import Image
+    from preprocess import preprocessing
+    if isinstance(img, str):
+        img = Image.open(img).convert("RGB")
     transform = preprocessing.get_transforms(img_size=img_size)
-    img_tensor = transform(img).unsqueeze(0).to(device)
+    img_tensor = transform(img).unsqueeze(0).to(torch.device("mps" if torch.backends.mps.is_available() else "cpu"))
     return img_tensor
 
 def predict(model, img_tensor):
