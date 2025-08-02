@@ -51,9 +51,9 @@ if uploaded_file is not None:
         st.image(img, caption="Uploaded Image", use_container_width=True)
         # Preprocess directly from PIL Image
         img_tensor = preprocess_image(img)
-        pred_class, conf_prob = predict(model, img_tensor)
-        st.success(f"Predicted class: **{pred_class} with {conf_prob} cofidence**")
-        st.balloons()
+        pred_class = predict(model, img_tensor)
+        st.success(f"The image is most likely **{pred_class}**")
+        
     except Exception as e:
         st.error(f"Error processing image: {e}")
 else:
