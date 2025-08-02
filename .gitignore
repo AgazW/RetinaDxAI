@@ -13,6 +13,16 @@ data/processed
 # Ignore Notebook output
 *.ipynb filter=nbstripout
 
+# MLflow tracking files and artifacts
+mlruns/
+**/mlruns/
+**/mlruns/*
+
+# MLflow model files
+model/
+**/model/
+**/model/*
+
 # Distribution / packaging
 .Python
 build/
