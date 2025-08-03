@@ -85,7 +85,7 @@ def predict(model, img_tensor):
 
     Returns
     -------
-    tuple
+    str
         Predicted class name (str) and confidence score (float).
     """
     with torch.no_grad():
