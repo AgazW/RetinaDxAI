@@ -7,7 +7,8 @@ import torch
 sys.path.append("src")
 from models.evaluate import load_model, preprocess_image, predict, class_names
 
-st.set_page_config(page_title="RetinaDxAI Classifier", page_icon="🧑‍⚕️", layout="centered")
+st.set_page_config(page_title="Retina Image Classifier", 
+                   page_icon="🧑‍⚕️", layout="centered")
 st.markdown(
     """
     <style>
@@ -19,11 +20,12 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.sidebar.image("https://images.unsplash.com/photo-1517841905240-472988babdf9", use_container_width=True)
-st.sidebar.title("RetinaDxAI")
-st.sidebar.markdown("Upload a retina image to classify.")
+# st.sidebar.image("https://images.unsplash.com/photo-1517841905240-472988babdf9", 
+#                  use_container_width=True)
+# st.sidebar.title("RetinaDxAI")
+# st.sidebar.markdown("Upload a retina image to classify.")
 
-st.title("🧑‍⚕️ RetinaDxAI Classifier")
+st.title("🧑‍⚕️ Retina Image Classifier")
 st.markdown(
     """
     <div style="background-color:#e3f2fd;padding:10px;border-radius:10px;">
