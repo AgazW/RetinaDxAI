@@ -29,7 +29,7 @@ st.title("🧑‍⚕️ Retina Image Classifier")
 st.markdown(
     """
     <div style="background-color:#e3f2fd;padding:10px;border-radius:10px;">
-    <h4>Welcome to RetinaDxAI!</h4>
+    <h4>Welcome to Eye Doctor!</h4>
     <p>This app uses a deep learning model to classify retina images. Upload a JPG, JPEG, or PNG image and get instant predictions.</p>
     </div>
     """,
