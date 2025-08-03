@@ -74,7 +74,7 @@ RetinaDxAI/
    ```
 
 3. **Download or place the trained model weights:**
-   - Ensure `Resnet_model_weights.pth` is in `app/models/`.
+   - Ensure `Resnet_model_weights.pth` is in `models/`.
 
 ---
 
