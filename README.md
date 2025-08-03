@@ -32,19 +32,30 @@ RetinaDxAI/
 ├── app/
 │   ├── app.py                # Streamlit web app
 │   ├── requirements.txt      # App dependencies
-│   └── models/
-│       └── Resnet_model_weights.pth  # Trained model weights
+├── models/
+│   ├── Resnet_model_weights.pth  # Trained model weights
 ├── src/
+│   ├── data/
+│   │   ├── download_data.py          # Data downloading utility
+│   │   └── test_download_data.py     # Tests for download_data.py
 │   ├── models/
-│   │   └── evaluate.py       # Model loading, preprocessing, prediction
-│   ├── preprocess/           # Preprocessing utilities
+│   │   ├── evaluate.py               # Model loading, preprocessing, prediction
+│   │   ├── train.py                  # Model training script
+│   │   ├── test_evaluate.py          # Tests for evaluate.py
+│   │   └── test_train.py             # Tests for train.py
+│   ├── preprocess/
+│   │   ├── preprocessing.py          # Preprocessing utilities
+│   │   ├── subset_data.py            # Data subsetting utility
+│   │   ├── test_preprocessing.py     # Tests for preprocessing.py
+│   │   └── test_subset_data.py       # Tests for subset_data.py
 │   └── visualization/
-│       └── plot_performance.py # Plotting functions
+│       ├── plot_performance.py       # Plotting functions
+│       ├── visualize_images.py       # Image visualization utility
+│       ├── test_plot_performance.py  # Tests for plot_performance.py
+│       └── test_visualize_images.py  # Tests for visualize_images.py
 ├── notebooks/
 │   ├── train.ipynb           # Model training notebook
 │   └── evaluate.ipynb        # Model evaluation notebook
-├── tests/
-│   └── test_evaluate.py      # Unit tests for evaluate.py
 ```
 
 ---
