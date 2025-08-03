@@ -3,8 +3,9 @@ import torch
 from unittest.mock import MagicMock, patch
 from PIL import Image
 import numpy as np
-
-from src.models import evaluate
+import sys
+sys.path.append("src")
+from models import evaluate
 
 def test_class_names_length():
     assert len(evaluate.class_names) == 10
@@ -13,7 +14,7 @@ def test_class_names_length():
 def test_preprocess_image_with_pil():
     # Create a dummy PIL image
     img = Image.fromarray(np.uint8(np.random.rand(224, 224, 3) * 255))
-    with patch("src.models.evaluate.preprocessing.get_transforms") as mock_transforms:
+    with patch("preprocess.preprocessing.get_transforms") as mock_transforms:
         mock_transform = MagicMock()
         mock_transform.return_value = torch.rand(3, 224, 224)
         mock_transforms.return_value = mock_transform
@@ -26,7 +27,7 @@ def test_preprocess_image_with_path(tmp_path):
     img_path = tmp_path / "test.jpg"
     img = Image.fromarray(np.uint8(np.random.rand(224, 224, 3) * 255))
     img.save(img_path)
-    with patch("src.models.evaluate.preprocessing.get_transforms") as mock_transforms:
+    with patch("preprocess.preprocessing.get_transforms") as mock_transforms:
         mock_transform = MagicMock()
         mock_transform.return_value = torch.rand(3, 224, 224)
         mock_transforms.return_value = mock_transform
