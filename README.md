@@ -135,6 +135,6 @@ Please add tests for new features and follow best practices.
 
 ## License
 
-MIT License (or specify your license here)
+MIT License
 
 ---
