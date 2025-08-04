@@ -138,10 +138,3 @@ Please add tests for new features and follow best practices.
 MIT License (or specify your license here)
 
 ---
-
-## Acknowledgements
-
-- PyTorch
-- Streamlit
-- MLflow
-- scikit-learn
