@@ -54,8 +54,10 @@ RetinaDxAI/
 │       ├── test_plot_performance.py  # Tests for plot_performance.py
 │       └── test_visualize_images.py  # Tests for visualize_images.py
 ├── notebooks/
-│   ├── train.ipynb           # Model training notebook
-│   └── evaluate.ipynb        # Model evaluation notebook
+│   ├── subset_data.ipynb             # Subset data notebook
+│   ├── preprocess_data.ipynb         # Preprocess data notebook
+│   ├── train.ipynb                   # Model training notebook
+│   └── evaluate.ipynb                # Model evaluation notebook
 ```
 
 ---
