@@ -2,7 +2,6 @@ import streamlit as st
 import torch
 from PIL import Image
 import sys
-import torch
 
 sys.path.append("src")
 from models.evaluate import load_model, preprocess_image, predict, class_names
