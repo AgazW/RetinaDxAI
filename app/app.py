@@ -3,7 +3,7 @@ import torch
 from PIL import Image
 import sys
 
-sys.path.append("src")
+sys.path.append("../src")
 from models.evaluate import load_model, preprocess_image, predict, class_names
 
 st.set_page_config(page_title="Retina Image Classifier", 
