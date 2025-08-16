@@ -2,9 +2,13 @@ import streamlit as st
 import torch
 from PIL import Image
 import sys
+import os
 
-sys.path.append("../src")
-from models.evaluate import load_model, preprocess_image, predict, class_names
+# sys.path.append("../src")
+# Add the project root directory to the Python path
+# This makes the app runnable from any directory
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from src.models.evaluate import load_model, preprocess_image, predict, class_names
 
 st.set_page_config(page_title="Retina Image Classifier", 
                    page_icon="🧑‍⚕️", layout="centered")
