@@ -2,11 +2,14 @@ import sys
 import torch
 from collections import Counter
 import matplotlib.pyplot as plt
+import os
 
-sys.path.append("src/models")
-import train
-sys.path.append("src")
-from visualization.plot_performance import plot_confusion_matrix
+# sys.path.append("src/models")
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from src.models import train
+# sys.path.append("src")
+from src.visualization.plot_performance import plot_confusion_matrix
+from src.preprocess import preprocessing
 
 # Device setup
 device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
